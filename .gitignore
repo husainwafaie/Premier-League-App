@@ -1,0 +1,12 @@
+backend/.env
+backend/venv/
+backend/__pycache__/
+*.py[cod]
+frontend/node_modules/
+*.log
+frontend/package-lock.json
+yarn.lock
+frontend/build/
+frontend/dist/
+.DS_Store
+Thumbs.db
