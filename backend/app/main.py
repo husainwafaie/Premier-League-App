@@ -1,6 +1,15 @@
 from fastapi import FastAPI
-from app.routes.player_routes import router as player_router
+from .routes.player_routes import router as player_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-app.include_router(player_router, prefix="/players")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Adjust this to your frontend's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(player_router)
