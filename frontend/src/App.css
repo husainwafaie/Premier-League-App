@@ -1,38 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+  --dark-purple: #2c0e37;
+  --light-purple: #4a1e5a;
+  --white: #ffffff;
+  --off-white: #f0f0f0;
+  --pl-purple: #3D195B;  /* Official Premier League purple */
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: var(--dark-purple);
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-content {
+  display: flex;
+  flex-grow: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-nav {
+  width: 250px;
+  background-color: var(--light-purple);
+  padding: 2rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.App-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.App-nav li {
+  margin-bottom: 1rem;
+}
+
+.App-nav a {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--off-white);
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.App-nav a:hover {
+  color: var(--white);
+}
+
+.App-main {
+  flex-grow: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--off-white);
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* Add some basic styling for the PlayerList component */
+.player-list {
+  background-color: var(--light-purple);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.player-list h2 {
+  margin-top: 0;
+}
+
+/* Add a subtle animation for links */
+a {
+  position: relative;
+  text-decoration: none;
+  color: var(--white);
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--white);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+a:hover::after {
+  transform: scaleX(1);
+}
+
+.App-main img {
+  max-width: 200px;  /* Adjust as needed */
+  margin-bottom: 1rem;
 }
