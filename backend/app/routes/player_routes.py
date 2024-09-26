@@ -27,3 +27,22 @@ async def get_dashboard():
                                           .to_list(3)
     
     return top_players
+
+@router.get("/teams/{team_name}", response_model=dict)
+async def get_player(team_name: str):
+    ret = {
+        "FWD": [],
+        "DEF": [],
+        "MID": []
+    }
+    #Modify the query to get only
+    players = await db['fantasy-data'].find({"team": team_name}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1})
+    for player in players:
+        if player['position'] == 'FWD':
+            ret['FWD'].append(player)
+        elif player['position'] == 'DEF' or player['position'] == 'GKP':
+            ret['DEF'].append(player)
+        elif player['position'] == 'MID':
+            ret['MID'].append(player)
+    return ret
+    raise HTTPException(status_code=404, detail="Player not found")
