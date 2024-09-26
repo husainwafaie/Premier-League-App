@@ -131,3 +131,62 @@ a:hover::after {
   max-width: 200px;  /* Adjust as needed */
   margin-bottom: 1rem;
 }
+
+.dashboard h2 {
+  margin-bottom: 1rem;
+}
+
+.top-players, .team-logos {
+  background-color: var(--light-purple);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.top-players h3, .team-logos h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.top-players ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.top-players li {
+  margin-bottom: 0.5rem;
+}
+
+.logo-grid {
+  margin-left: 5%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.logo-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-wrapper {
+  width: 100%;
+  padding-bottom: 100%; /* This creates a 1:1 aspect ratio */
+  position: relative;
+}
+
+.logo-wrapper img:hover {
+  transform: scale(1.2);
+}
+
+.logo-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 60%;
+  object-fit: contain; /* This will maintain the aspect ratio of the logo */
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}

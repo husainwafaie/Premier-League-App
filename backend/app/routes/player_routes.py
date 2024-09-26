@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from ..models.player import Player
 from typing import List
 from ..db import db
+from sqlalchemy import desc
+from pymongo import DESCENDING
 
 router = APIRouter()
 
@@ -16,3 +18,12 @@ async def get_player(player_id: int):
 async def get_players():
     players = await db['fantasy-data'].find({}, {'_id': 0}).to_list(1)
     return players
+
+@router.get("/dashboard/", response_model=List[dict])
+async def get_dashboard():
+    top_players = await db['fantasy-data'].find({}, {'_id': 0, 'name': 1, 'total_points': 1}) \
+                                          .sort('total_points', DESCENDING) \
+                                          .limit(3) \
+                                          .to_list(3)
+    
+    return top_players
