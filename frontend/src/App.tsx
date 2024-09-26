@@ -1,36 +1,41 @@
-// src/App.tsx
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
-import PlayerList from './components/PlayerList';  // Ensure the path matches your file structure
-
-// - player statistics dashboard
-// - player comparison
-// - top performers and trends
-// - transfer market insights (players transferred in/out the most and most popularity)
-// - player injury and suspension tracker
-
+import PlayerList from './components/PlayerList';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
-    <div className="App">
-      <div className="App-content">
-        <nav className="App-nav">
-          <div className="logo">PL Stats</div>
-          <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#player-comparison">Player Comparison</a></li>
-            <li><a href="#top-performers">Top Performers</a></li>
-            <li><a href="#transfer-market">Transfer Market</a></li>
-            <li><a href="#injury-tracker">Injury Tracker</a></li>
-          </ul>
-        </nav>
-        <main className="App-main">
-          <h1>Welcome to Premier League Stats Tracker</h1>
-          <p className="subtitle">Explore player statistics, compare performances, and stay updated with the latest Premier League insights.</p>
-          
-        </main>
+    <Router>
+      <div className="App">
+        <div className="App-content">
+          <nav className="App-nav">
+            <div className="logo">PL Stats</div>
+            <ul>
+              <li><Link to="/dashboard">Dashboard</Link></li>
+              <li><Link to="/player-comparison">Player Comparison</Link></li>
+              <li><Link to="/top-performers">Top Performers</Link></li>
+              <li><Link to="/transfer-market">Transfer Market</Link></li>
+              <li><Link to="/injury-tracker">Injury Tracker</Link></li>
+            </ul>
+          </nav>
+          <main className="App-main">
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <h1>Welcome to Premier League Stats Tracker</h1>
+                  <img src={process.env.PUBLIC_URL + '/pl.png'} alt="Premier League Logo" />
+                  <p className="subtitle">Explore player statistics, compare performances, and stay updated with the latest Premier League insights.</p>
+                  <PlayerList />
+                </>
+              } />
+              <Route path="/dashboard" element={<Dashboard />} />
+              {/* Add other routes as needed */}
+            </Routes>
+          </main>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
