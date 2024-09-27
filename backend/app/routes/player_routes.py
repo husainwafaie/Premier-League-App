@@ -30,19 +30,32 @@ async def get_dashboard():
 
 @router.get("/teams/{team_name}", response_model=dict)
 async def get_player(team_name: str):
+    team_name = team_name.replace("-", " ")
+
+    if not await db['fantasy-data'].find_one({"team": team_name}):
+        raise HTTPException(status_code=404, detail="Player not found")
+    
+    # Get the top 3 players for each position
     ret = {
         "FWD": [],
         "DEF": [],
         "MID": []
     }
-    #Modify the query to get only
-    players = await db['fantasy-data'].find({"team": team_name}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1})
-    for player in players:
-        if player['position'] == 'FWD':
-            ret['FWD'].append(player)
-        elif player['position'] == 'DEF' or player['position'] == 'GKP':
-            ret['DEF'].append(player)
-        elif player['position'] == 'MID':
-            ret['MID'].append(player)
+    
+    ret["FWD"] = await db['fantasy-data'].find({"team": team_name, "position": "FWD"}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+                                          .sort('total_points', DESCENDING) \
+                                          .limit(3) \
+                                          .to_list(3)
+    
+    ret["MID"] = await db['fantasy-data'].find({"team": team_name, "position": "MID"}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+                                          .sort('total_points', DESCENDING) \
+                                          .limit(3) \
+                                          .to_list(3)
+    
+    ret["DEF"] = await db['fantasy-data'].find({"team": team_name, "position": {"$in": ["DEF", "GKP"]}}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+                                          .sort('total_points', DESCENDING) \
+                                          .limit(3) \
+                                          .to_list(3)
+    
     return ret
-    raise HTTPException(status_code=404, detail="Player not found")
+

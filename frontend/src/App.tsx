@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import PlayerList from './components/PlayerList';
 import Dashboard from './components/Dashboard';
+import TeamPage from './components/TeamPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 </>
               } />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/teams/:teamName" element={<TeamPage />} />
               {/* Add other routes as needed */}
             </Routes>
           </main>

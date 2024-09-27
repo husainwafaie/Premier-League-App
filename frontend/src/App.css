@@ -190,3 +190,38 @@ a:hover::after {
   transition: transform 0.3s ease;
   cursor: pointer;
 }
+
+.team-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.team-logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.team-logo img {
+  max-width: 200px;
+  height: auto;
+}
+
+.top-players {
+  display: flex;
+  justify-content: space-between;
+}
+
+.player-list {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.player-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.player-list li {
+  margin-bottom: 5px;
+}

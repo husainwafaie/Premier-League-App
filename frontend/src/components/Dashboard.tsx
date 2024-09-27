@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
+import { Link } from 'react-router-dom';
 interface TopPlayer {
   name: string;
   total_points: number;
@@ -33,22 +34,22 @@ const Dashboard: React.FC = () => {
     { name: 'Crystal Palace', file: 'crystal.png' },
     { name: 'Everton', file: 'everton.png' },
     { name: 'Fulham', file: 'fulham.png' },
-    { name: 'Ipswich City', file: 'ipswich.png' },
-    { name: 'Leicester City', file: 'leicester.png' },
+    { name: 'Ipswich', file: 'ipswich.png' },
+    { name: 'Leicester', file: 'leicester.png' },
     { name: 'Liverpool', file: 'liverpool.png' },
     { name: 'Man City', file: 'city.png' },
     { name: 'Man Utd', file: 'manunited.png' },
     { name: 'Newcastle', file: 'newcastle.png' },
-    { name: 'Nottingham Forest', file: 'nott.png' },
+    { name: "Nott'm Forest", file: 'nott.png' },
     { name: 'Southampton', file: 'southampton.png' },
-    { name: 'Tottenham', file: 'spurs.png' },
+    { name: 'Spurs', file: 'spurs.png' },
     { name: 'West Ham', file: 'westham.png' },
-    { name: 'Wolverhampton Wanderers', file: 'wolves.png' },
+    { name: 'Wolves', file: 'wolves.png' },
   ];
 
   const handleLogoClick = (teamName: string) => {
     // Replace this with the actual URL you want to navigate to
-    const url = `https://example.com/team/${teamName.toLowerCase().replace(' ', '-')}`;
+    const url = `https://example.com/team/${teamName.replace(' ', '-')}`;
     window.open(url, '_blank');
   };
 
@@ -70,14 +71,15 @@ const Dashboard: React.FC = () => {
         <div className="logo-grid">
           {teamLogos.map((team, index) => (
             <div key={index} className="logo-item">
-              <div 
+              <Link 
+                to={`/teams/${team.name.replace(/ /g, '-')}`}
                 className="logo-wrapper"
               >
-                <img onClick={() => handleLogoClick(team.name)}
+                <img
                   src={`${process.env.PUBLIC_URL}/${team.file}`}
                   alt={team.name}
                 />
-              </div>
+              </Link>
             </div>
           ))}
         </div>
