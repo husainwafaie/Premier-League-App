@@ -1,6 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from ..models.player import Player
-from typing import List
+from typing import List, Optional
 from ..db import db
 from sqlalchemy import desc
 from pymongo import DESCENDING
@@ -58,4 +58,27 @@ async def get_player(team_name: str):
                                           .to_list(3)
     
     return ret
+
+@router.get("/players/search/", response_model=List[dict])
+async def search_players(
+    query: str = Query(..., min_length=1),
+    position: Optional[str] = Query(None, regex="^(Forward|Midfielder|Defender|Goalkeeper)$")
+):
+    filter_query = {"name": {"$regex": query, "$options": "i"}}
+    
+    if position:
+        position_map = {
+            "Forward": "FWD",
+            "Midfielder": "MID",
+            "Defender": "DEF",
+            "Goalkeeper": "GKP"
+        }
+        filter_query["position"] = position_map[position]
+
+    players = await db['fantasy-data'].find(
+        filter_query,
+        {'_id': 0, 'name': 1, 'position': 1, 'team': 1, 'total_points': 1}
+    ).sort('total_points', DESCENDING).limit(10).to_list(10)
+
+    return players
 
