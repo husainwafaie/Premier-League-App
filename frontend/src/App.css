@@ -240,6 +240,7 @@ a:hover::after {
   border: 1px solid #ddd;
   max-height: 200px;
   overflow-y: auto;
+  color: black;
 }
 
 .autocomplete-results li {
@@ -253,4 +254,33 @@ a:hover::after {
 
 .autocomplete-results li.selected {
   background-color: #e0e0e0;
+}
+
+.player-selection input {
+  color: black;
+}
+
+.comparison-data {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.player-column {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 0 10px;
+  min-height: 200px; /* Adjust as needed */
+}
+
+.player-column h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.player-column p {
+  margin: 5px 0;
 }
