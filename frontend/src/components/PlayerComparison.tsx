@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import '../App.css';
@@ -10,12 +10,14 @@ const PlayerComparison: React.FC = () => {
   const [selectedPlayers, setSelectedPlayers] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [comparisonData, setComparisonData] = useState<any[]>([]);
 
   const handlePositionSelect = (position: string) => {
     setSelectedPosition(position);
     setSelectedPlayers([]);
     setSearchResults([]);
     setSearchQuery('');
+    setComparisonData([]);
   };
 
   const handlePlayerSelect = (player: any) => {
@@ -35,7 +37,7 @@ const PlayerComparison: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get(`/api/players/search/?query=${query}&position=${selectedPosition}`);
+        const response = await axios.get(`http://localhost:8000/players/search/?query=${query}&position=${selectedPosition}`);
         setSearchResults(response.data);
       } catch (error) {
         console.error('Error searching players:', error);
@@ -50,15 +52,45 @@ const PlayerComparison: React.FC = () => {
     debouncedSearch(query);
   };
 
+  useEffect(() => {
+    const fetchComparisonData = async () => {
+      if (selectedPlayers.length === 2) {
+        try {
+          // Use player names instead of IDs
+          const [player1Data, player2Data] = await Promise.all([
+            axios.get(`http://localhost:8000/players/search/?query=${encodeURIComponent(selectedPlayers[0].name)}&position=${selectedPosition}`),
+            axios.get(`http://localhost:8000/players/search/?query=${encodeURIComponent(selectedPlayers[1].name)}&position=${selectedPosition}`)
+          ]);
+
+          // Assuming the search returns an array, we take the first result
+          setComparisonData([player1Data.data[0], player2Data.data[0]]);
+        } catch (error) {
+          console.error('Error fetching comparison data:', error);
+        }
+      } else {
+        setComparisonData([]);
+      }
+    };
+
+    fetchComparisonData();
+  }, [selectedPlayers, selectedPosition]);
+
   const renderComparisonData = () => {
     return (
       <div className="comparison-data">
-        {selectedPlayers.map(player => (
+        {selectedPlayers.map((player, index) => (
           <div key={player.name} className="player-column">
             <h3>{player.name}</h3>
-            <p>Team: {player.team}</p>
-            <p>Position: {player.position}</p>
-            <p>Total Points: {player.total_points}</p>
+            {comparisonData[index] ? (
+              <>
+                <p>Team: {comparisonData[index].team}</p>
+                <p>Position: {comparisonData[index].position}</p>
+                <p>Total Points: {comparisonData[index].total_points}</p>
+                {/* Add more player statistics here */}
+              </>
+            ) : (
+              <p>Loading...</p>
+            )}
           </div>
         ))}
       </div>
@@ -87,6 +119,7 @@ const PlayerComparison: React.FC = () => {
               value={searchQuery}
               onChange={handleSearchInputChange}
               placeholder={`Search for ${selectedPosition}s`}
+              style={{ color: 'black' }}
             />
             {searchResults.length > 0 && (
               <ul className="autocomplete-results">
@@ -104,7 +137,7 @@ const PlayerComparison: React.FC = () => {
           </div>
         </div>
       )}
-      {selectedPlayers.length === 2 && renderComparisonData()}
+      {selectedPlayers.length > 0 && renderComparisonData()}
     </div>
   );
 };
