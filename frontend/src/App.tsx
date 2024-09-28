@@ -5,6 +5,7 @@ import PlayerList from './components/PlayerList';
 import Dashboard from './components/Dashboard';
 import TeamPage from './components/TeamPage';
 import PlayerComparison from './components/PlayerComparison';
+import TopPerformers from './components/TopPerformers';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/teams/:teamName" element={<TeamPage />} />
               <Route path="/player-comparison" element={<PlayerComparison />} />
+              <Route path="/top-performers" element={<TopPerformers />} />
               {/* Add other routes as needed */}
             </Routes>
           </main>

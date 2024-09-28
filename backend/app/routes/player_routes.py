@@ -82,3 +82,16 @@ async def search_players(
 
     return players
 
+@router.get("/top-performers/", response_model=dict)
+async def get_top_performers():
+    positions = ["FWD", "MID", "DEF", "GKP"]
+    top_performers = {}
+
+    for position in positions:
+        top_performers[position] = await db['fantasy-data'].find(
+            {"position": position},
+            {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'points_per_game': 1, 'total_points': 1, 'selected_by_percent': 1}
+        ).sort('points_per_game', DESCENDING).limit(5).to_list(5)
+
+    return top_performers
+
