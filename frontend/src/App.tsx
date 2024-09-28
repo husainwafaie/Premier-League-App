@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import TeamPage from './components/TeamPage';
 import PlayerComparison from './components/PlayerComparison';
 import TopPerformers from './components/TopPerformers';
+import TransferMarket from './components/TransferMarket';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/teams/:teamName" element={<TeamPage />} />
               <Route path="/player-comparison" element={<PlayerComparison />} />
               <Route path="/top-performers" element={<TopPerformers />} />
+              <Route path="/transfer-market" element={<TransferMarket />} />
               {/* Add other routes as needed */}
             </Routes>
           </main>

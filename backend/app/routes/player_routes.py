@@ -95,3 +95,26 @@ async def get_top_performers():
 
     return top_performers
 
+@router.get("/transfer-market/", response_model=dict)
+async def get_transfer_market():
+    highest_owned = await db['fantasy-data'].find(
+        {},
+        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'selected_by_percent': 1}
+    ).sort('selected_by_percent', DESCENDING).limit(10).to_list(10)
+
+    most_transferred_in = await db['fantasy-data'].find(
+        {},
+        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'transfers_in_event': 1}
+    ).sort('transfers_in_event', DESCENDING).limit(5).to_list(5)
+
+    most_transferred_out = await db['fantasy-data'].find(
+        {},
+        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'transfers_out_event': 1}
+    ).sort('transfers_out_event', DESCENDING).limit(5).to_list(5)
+
+    return {
+        "highest_owned": highest_owned,
+        "most_transferred_in": most_transferred_in,
+        "most_transferred_out": most_transferred_out
+    }
+
