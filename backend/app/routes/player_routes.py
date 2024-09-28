@@ -118,3 +118,20 @@ async def get_transfer_market():
         "most_transferred_out": most_transferred_out
     }
 
+@router.get("/injury-tracker/", response_model=List[dict])
+async def get_injured_players():
+    injured_players = await db['fantasy-data'].find(
+        {"status": "i"},
+        {
+            '_id': 0,
+            'name': 1,
+            'team': 1,
+            'position': 1,
+            'total_points': 1,
+            'news': 1,
+            'chance_of_playing_next_round': 1
+        }
+    ).sort('total_points', DESCENDING).limit(10).to_list(10)
+
+    return injured_players
+

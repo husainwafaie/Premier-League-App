@@ -345,3 +345,34 @@ a:hover::after {
 .player-list tr:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.injury-tracker {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.injury-tracker h2 {
+  margin-bottom: 20px;
+}
+
+.injury-tracker table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.injury-tracker th,
+.injury-tracker td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.injury-tracker th {
+  background-color: var(--light-purple);
+  font-weight: bold;
+}
+
+.injury-tracker tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
