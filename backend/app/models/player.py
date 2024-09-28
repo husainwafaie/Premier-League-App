@@ -40,7 +40,7 @@ class Player(BaseModel):
     transfers_out:int
     bps:int
     form_rank_type:int
-    chance_of_playing_next_round:Optional[int]
+    chance_of_playing_next_round:Optional[int] = None
     form_rank:int
     yellow_cards:int
     goals_conceded_per_90:float

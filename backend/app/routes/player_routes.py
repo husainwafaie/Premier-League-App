@@ -7,9 +7,9 @@ from pymongo import DESCENDING
 
 router = APIRouter()
 
-@router.get("/players/{player_id}", response_model=Player)
+@router.get("/player/{player_id}", response_model=Player)
 async def get_player(player_id: int):
-    player = await db['players'].find_one({"id": player_id})
+    player = await db['fantasy-data'].find_one({"id": player_id})
     if player:
         return player
     raise HTTPException(status_code=404, detail="Player not found")
@@ -21,7 +21,7 @@ async def get_players():
 
 @router.get("/dashboard/", response_model=List[dict])
 async def get_dashboard():
-    top_players = await db['fantasy-data'].find({}, {'_id': 0, 'name': 1, 'total_points': 1}) \
+    top_players = await db['fantasy-data'].find({}, {'_id': 0, 'id': 1, 'name': 1, 'total_points': 1}) \
                                           .sort('total_points', DESCENDING) \
                                           .limit(3) \
                                           .to_list(3)
@@ -42,17 +42,17 @@ async def get_player(team_name: str):
         "MID": []
     }
     
-    ret["FWD"] = await db['fantasy-data'].find({"team": team_name, "position": "FWD"}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+    ret["FWD"] = await db['fantasy-data'].find({"team": team_name, "position": "FWD"}, {'_id': 0, 'id': 1, 'name': 1, 'position': 1, 'total_points': 1}) \
                                           .sort('total_points', DESCENDING) \
                                           .limit(3) \
                                           .to_list(3)
     
-    ret["MID"] = await db['fantasy-data'].find({"team": team_name, "position": "MID"}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+    ret["MID"] = await db['fantasy-data'].find({"team": team_name, "position": "MID"}, {'_id': 0, 'id': 1, 'name': 1, 'position': 1, 'total_points': 1}) \
                                           .sort('total_points', DESCENDING) \
                                           .limit(3) \
                                           .to_list(3)
     
-    ret["DEF"] = await db['fantasy-data'].find({"team": team_name, "position": {"$in": ["DEF", "GKP"]}}, {'_id': 0, 'name': 1, 'position': 1, 'total_points': 1}) \
+    ret["DEF"] = await db['fantasy-data'].find({"team": team_name, "position": {"$in": ["DEF", "GKP"]}}, {'_id': 0, 'id': 1, 'name': 1, 'position': 1, 'total_points': 1}) \
                                           .sort('total_points', DESCENDING) \
                                           .limit(3) \
                                           .to_list(3)
@@ -77,7 +77,7 @@ async def search_players(
 
     players = await db['fantasy-data'].find(
         filter_query,
-        {'_id': 0, 'name': 1, 'position': 1, 'team': 1, 'total_points': 1}
+        {'_id': 0, 'id': 1, 'name': 1, 'position': 1, 'team': 1, 'total_points': 1}
     ).sort('total_points', DESCENDING).limit(10).to_list(10)
 
     return players
@@ -90,7 +90,7 @@ async def get_top_performers():
     for position in positions:
         top_performers[position] = await db['fantasy-data'].find(
             {"position": position},
-            {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'points_per_game': 1, 'total_points': 1, 'selected_by_percent': 1}
+            {'_id': 0, 'id': 1, 'name': 1, 'team': 1, 'position': 1, 'points_per_game': 1, 'total_points': 1, 'selected_by_percent': 1}
         ).sort('points_per_game', DESCENDING).limit(5).to_list(5)
 
     return top_performers
@@ -99,17 +99,17 @@ async def get_top_performers():
 async def get_transfer_market():
     highest_owned = await db['fantasy-data'].find(
         {},
-        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'selected_by_percent': 1}
+        {'_id': 0, 'id': 1, 'name': 1, 'team': 1, 'position': 1, 'selected_by_percent': 1}
     ).sort('selected_by_percent', DESCENDING).limit(10).to_list(10)
 
     most_transferred_in = await db['fantasy-data'].find(
         {},
-        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'transfers_in_event': 1}
+        {'_id': 0, 'id': 1, 'name': 1, 'team': 1, 'position': 1, 'transfers_in_event': 1}
     ).sort('transfers_in_event', DESCENDING).limit(5).to_list(5)
 
     most_transferred_out = await db['fantasy-data'].find(
         {},
-        {'_id': 0, 'name': 1, 'team': 1, 'position': 1, 'transfers_out_event': 1}
+        {'_id': 0, 'id': 1, 'name': 1, 'team': 1, 'position': 1, 'transfers_out_event': 1}
     ).sort('transfers_out_event', DESCENDING).limit(5).to_list(5)
 
     return {
@@ -124,6 +124,7 @@ async def get_injured_players():
         {"status": "i"},
         {
             '_id': 0,
+            'id': 1,
             'name': 1,
             'team': 1,
             'position': 1,
