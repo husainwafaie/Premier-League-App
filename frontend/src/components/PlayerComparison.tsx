@@ -38,12 +38,19 @@ const PlayerComparison: React.FC = () => {
       }
       try {
         const response = await axios.get(`http://localhost:8000/players/search/?query=${query}&position=${selectedPosition}`);
-        setSearchResults(response.data);
+        let results = response.data;
+        
+        // Exclude the first selected player from the results
+        if (selectedPlayers.length === 1) {
+          results = results.filter((player: any) => player.name !== selectedPlayers[0].name);
+        }
+        
+        setSearchResults(results);
       } catch (error) {
         console.error('Error searching players:', error);
       }
     }, 300),
-    [selectedPosition]
+    [selectedPosition, selectedPlayers]
   );
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +119,7 @@ const PlayerComparison: React.FC = () => {
       )}
       {selectedPosition && (
         <div className="player-selection">
-          <h3>Select two {selectedPosition}s to compare:</h3>
+          <h3>Select {selectedPlayers.length === 1 ? 'second' : 'first'} {selectedPosition}s to compare:</h3>
           <div className="autocomplete">
             <input
               type="text"
