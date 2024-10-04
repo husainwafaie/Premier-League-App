@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface InjuredPlayer {
   name: string;
+  id: number;
   team: string;
   position: string;
   total_points: number;
@@ -43,7 +45,9 @@ const InjuryTracker: React.FC = () => {
         <tbody>
           {injuredPlayers.map((player, index) => (
             <tr key={index}>
-              <td>{player.name}</td>
+              <td>
+                <Link to={`/player/${player.id}`}>{player.name}</Link>
+              </td>
               <td>{player.team}</td>
               <td>{player.position}</td>
               <td>{player.total_points}</td>

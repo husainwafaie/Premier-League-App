@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Player {
   name: string;
@@ -8,6 +9,7 @@ interface Player {
   points_per_game: number;
   total_points: number;
   selected_by_percent: number;
+  id: number;
 }
 
 const TopPerformers: React.FC = () => {
@@ -52,7 +54,9 @@ const TopPerformers: React.FC = () => {
             <tbody>
               {players.map((player, index) => (
                 <tr key={index}>
-                  <td>{player.name}</td>
+                  <td>
+                    <Link to={`/player/${player.id}`}>{player.name}</Link>
+                  </td>
                   <td>{player.team}</td>
                   <td>{player.points_per_game.toFixed(1)}</td>
                   <td>{player.total_points}</td>
