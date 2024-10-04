@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 interface Player {
   name: string;
   position: string;
   total_points: number;
+  id: number;
 }
 
 interface TeamData {
@@ -41,7 +42,7 @@ const TeamPage: React.FC = () => {
       <ul>
         {players.map((player, index) => (
           <li key={index}>
-            {player.name} - {player.total_points} points
+            <Link to={`/player/${player.id}`}>{player.name}</Link> - {player.total_points} points
           </li>
         ))}
       </ul>

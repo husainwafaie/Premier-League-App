@@ -4,6 +4,7 @@ import '../App.css';
 import { Link } from 'react-router-dom';
 interface TopPlayer {
   name: string;
+  id:number;
   total_points: number;
 }
 
@@ -61,7 +62,7 @@ const Dashboard: React.FC = () => {
         <ul>
           {topPlayers.map((player, index) => (
             <li key={index}>
-              {player.name} - {player.total_points} points
+              <Link to={`/player/${player.id}`}>{player.name}</Link> - {player.total_points} points
             </li>
           ))}
         </ul>

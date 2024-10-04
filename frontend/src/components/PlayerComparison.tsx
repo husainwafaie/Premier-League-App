@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
+import { Link } from 'react-router-dom';
 import '../App.css';
 
 const positions = ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'];
@@ -87,7 +88,9 @@ const PlayerComparison: React.FC = () => {
       <div className="comparison-data">
         {selectedPlayers.map((player, index) => (
           <div key={player.name} className="player-column">
-            <h3>{player.name}</h3>
+            <h3>
+              <Link to={`/player/${player.id}`}>{player.name}</Link>
+            </h3>
             {comparisonData[index] ? (
               <>
                 <p>Team: {comparisonData[index].team}</p>
@@ -109,13 +112,16 @@ const PlayerComparison: React.FC = () => {
       <h2>Player Comparison</h2>
       {!selectedPosition && (
         <div className="position-selection">
-          <h3>Select a position:</h3>
-          {positions.map(position => (
-            <button key={position} onClick={() => handlePositionSelect(position)}>
+        <h3>Select a position:</h3>
+        {positions.map(position => (
+          <React.Fragment key={position}>
+            <button onClick={() => handlePositionSelect(position)}>
               {position}
             </button>
-          ))}
-        </div>
+            <br />
+          </React.Fragment>
+        ))}
+      </div>
       )}
       {selectedPosition && (
         <div className="player-selection">

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Player {
   name: string;
+  id: number;
   team: string;
   position: string;
   selected_by_percent?: number;
@@ -47,7 +49,9 @@ const TransferMarket: React.FC = () => {
         <tbody>
           {players.map((player, index) => (
             <tr key={index}>
-              <td>{player.name}</td>
+              <td>
+                <Link to={`/player/${player.id}`}>{player.name}</Link>
+              </td>
               <td>{player.team}</td>
               <td>{player.position}</td>
               <td>

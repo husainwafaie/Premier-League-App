@@ -8,6 +8,7 @@ import PlayerComparison from './components/PlayerComparison';
 import TopPerformers from './components/TopPerformers';
 import TransferMarket from './components/TransferMarket';
 import InjuryTracker from './components/InjuryTracker';
+import PlayerPage from './components/PlayerPage';
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
       <div className="App">
         <div className="App-content">
           <nav className="App-nav">
-            <div className="logo">PL Stats</div>
+            <div className="logo">
+              PL Stats
+            </div>
             <ul>
               <li><Link to="/dashboard">Dashboard</Link></li>
               <li><Link to="/player-comparison">Player Comparison</Link></li>
@@ -40,6 +43,7 @@ function App() {
               <Route path="/top-performers" element={<TopPerformers />} />
               <Route path="/transfer-market" element={<TransferMarket />} />
               <Route path="/injury-tracker" element={<InjuryTracker />} />
+              <Route path="/player/:playerId" element={<PlayerPage />} />
               {/* Add other routes as needed */}
             </Routes>
           </main>
