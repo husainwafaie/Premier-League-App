@@ -37,7 +37,7 @@ const InjuryTracker: React.FC = () => {
             <th>Name</th>
             <th>Team</th>
             <th>Position</th>
-            <th>Total Points</th>
+            <th>Total Pts</th>
             <th>Status</th>
             <th>Chance of Playing</th>
           </tr>

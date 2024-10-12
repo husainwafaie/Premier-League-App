@@ -408,32 +408,155 @@ a::after {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .injury-tracker h2 {
   margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: var(--pl-purple);
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .injury-tracker table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-top: 20px;
 }
 
 .injury-tracker th,
 .injury-tracker td {
-  padding: 10px;
+  padding: 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  transition: all 0.3s ease;
 }
 
 .injury-tracker th {
-  background-color: var(--light-purple);
+  background-color: var(--pl-purple);
+  color: var(--white);
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.injury-tracker tr {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .injury-tracker tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.injury-tracker td:first-child,
+.injury-tracker th:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.injury-tracker td:last-child,
+.injury-tracker th:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.injury-tracker a {
+  color: var(--pl-purple);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.injury-tracker a:hover {
+  color: var(--light-purple);
+  text-decoration: underline;
+}
+
+.injury-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.injury-status.out {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.injury-status.doubtful {
+  background-color: #ffa500;
+  color: white;
+}
+
+.injury-status.available {
+  background-color: #4caf50;
+  color: white;
+}
+
+.chance-of-playing {
+  display: flex;
+  align-items: center;
+}
+
+.chance-bar {
+  width: 100px;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.chance-bar-fill {
+  height: 100%;
+  background-color: var(--pl-purple);
+  transition: width 0.5s ease-out;
+}
+
+/* Add this to your existing CSS file */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.injury-tracker tr {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.injury-tracker tr:nth-child(1) { animation-delay: 0.1s; }
+.injury-tracker tr:nth-child(2) { animation-delay: 0.2s; }
+.injury-tracker tr:nth-child(3) { animation-delay: 0.3s; }
+.injury-tracker tr:nth-child(4) { animation-delay: 0.4s; }
+.injury-tracker tr:nth-child(5) { animation-delay: 0.5s; }
+.injury-tracker tr:nth-child(6) { animation-delay: 0.6s; }
+.injury-tracker tr:nth-child(7) { animation-delay: 0.7s; }
+.injury-tracker tr:nth-child(8) { animation-delay: 0.8s; }
+.injury-tracker tr:nth-child(9) { animation-delay: 0.9s; }
+.injury-tracker tr:nth-child(10) { animation-delay: 1s; }
 
 .position-buttons {
   display: flex;
