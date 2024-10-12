@@ -37,6 +37,82 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--light-purple);
   padding: 2rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.App-nav:hover {
+  width: 280px;
+}
+
+.App-nav ul {
+  list-style-type: none;
+  padding: 0;
+  width: 230px;
+}
+
+.App-nav li {
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: visible;
+}
+
+.App-nav a {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--off-white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  padding: 10px 35px 10px 15px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.App-nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pl-purple);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.App-nav a:hover {
+  color: var(--white);
+}
+
+.App-nav a:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.App-nav li::after {
+  content: '→';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: var(--white);
+  z-index: 2;
+}
+
+.App-nav li:hover::after {
+  opacity: 1;
+  right: 10px;
 }
 
 .logo {
@@ -47,30 +123,25 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--white);
   text-transform: uppercase;
   letter-spacing: 1px;
+  position: relative;
+  padding-left: 45px; 
+  transition: all 0.3s ease;
 }
 
-.App-nav ul {
-  list-style-type: none;
-  padding: 0;
+.logo::before {
+  content: '⚽';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
-.App-nav li {
-  margin-bottom: 1rem;
-}
-
-.App-nav a {
-  font-family: 'Roboto', Arial, sans-serif;
-  font-weight: 400;
-  text-decoration: none;
-  color: var(--off-white);
-  font-size: 1rem;
-  transition: color 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.App-nav a:hover {
-  color: var(--white);
+.logo:hover::before {
+  transform: translateY(-50%) rotate(360deg);
+  opacity: 1;
 }
 
 .App-main {
@@ -93,7 +164,7 @@ h1 {
   font-weight: 400;
 }
 
-/* Add some basic styling for the PlayerList component */
+
 .player-list {
   background-color: var(--light-purple);
   border-radius: 8px;
@@ -104,7 +175,6 @@ h1 {
   margin-top: 0;
 }
 
-/* Add a subtle animation for links */
 a {
   position: relative;
   text-decoration: none;
@@ -112,23 +182,11 @@ a {
 }
 
 a::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: var(--white);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-a:hover::after {
-  transform: scaleX(1);
+  content: none;
 }
 
 .App-main img {
-  max-width: 200px;  /* Adjust as needed */
+  max-width: 200px; 
   margin-bottom: 1rem;
 }
 
@@ -172,7 +230,7 @@ a:hover::after {
 
 .logo-wrapper {
   width: 100%;
-  padding-bottom: 100%; /* This creates a 1:1 aspect ratio */
+  padding-bottom: 100%;
   position: relative;
 }
 
@@ -186,7 +244,7 @@ a:hover::after {
   left: 0;
   width: 60%;
   height: 60%;
-  object-fit: contain; /* This will maintain the aspect ratio of the logo */
+  object-fit: contain;
   transition: transform 0.3s ease;
   cursor: pointer;
 }
@@ -272,7 +330,7 @@ a:hover::after {
   border: 1px solid #ddd;
   border-radius: 5px;
   margin: 0 10px;
-  min-height: 200px; /* Adjust as needed */
+  min-height: 200px;
 }
 
 .player-column h3 {
@@ -350,32 +408,155 @@ a:hover::after {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .injury-tracker h2 {
   margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: var(--pl-purple);
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .injury-tracker table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-top: 20px;
 }
 
 .injury-tracker th,
 .injury-tracker td {
-  padding: 10px;
+  padding: 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  transition: all 0.3s ease;
 }
 
 .injury-tracker th {
-  background-color: var(--light-purple);
+  background-color: var(--pl-purple);
+  color: var(--white);
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.injury-tracker tr {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .injury-tracker tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.injury-tracker td:first-child,
+.injury-tracker th:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.injury-tracker td:last-child,
+.injury-tracker th:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.injury-tracker a {
+  color: var(--pl-purple);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.injury-tracker a:hover {
+  color: var(--light-purple);
+  text-decoration: underline;
+}
+
+.injury-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.injury-status.out {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.injury-status.doubtful {
+  background-color: #ffa500;
+  color: white;
+}
+
+.injury-status.available {
+  background-color: #4caf50;
+  color: white;
+}
+
+.chance-of-playing {
+  display: flex;
+  align-items: center;
+}
+
+.chance-bar {
+  width: 100px;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.chance-bar-fill {
+  height: 100%;
+  background-color: var(--pl-purple);
+  transition: width 0.5s ease-out;
+}
+
+/* Add this to your existing CSS file */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.injury-tracker tr {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.injury-tracker tr:nth-child(1) { animation-delay: 0.1s; }
+.injury-tracker tr:nth-child(2) { animation-delay: 0.2s; }
+.injury-tracker tr:nth-child(3) { animation-delay: 0.3s; }
+.injury-tracker tr:nth-child(4) { animation-delay: 0.4s; }
+.injury-tracker tr:nth-child(5) { animation-delay: 0.5s; }
+.injury-tracker tr:nth-child(6) { animation-delay: 0.6s; }
+.injury-tracker tr:nth-child(7) { animation-delay: 0.7s; }
+.injury-tracker tr:nth-child(8) { animation-delay: 0.8s; }
+.injury-tracker tr:nth-child(9) { animation-delay: 0.9s; }
+.injury-tracker tr:nth-child(10) { animation-delay: 1s; }
 
 .position-buttons {
   display: flex;
