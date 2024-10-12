@@ -376,3 +376,120 @@ a:hover::after {
 .injury-tracker tr:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.position-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.position-buttons button {
+  padding: 10px;
+  background-color: var(--light-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.position-buttons button:hover {
+  background-color: var(--pl-purple);
+}
+
+/* Welcome Page Styles */
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.welcome-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: slideDown 1s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.welcome-logo {
+  max-width: 250px;
+  margin-bottom: 2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: var(--off-white);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  animation: fadeIn 1s ease-out 0.5s both;
+}
+
+.welcome-features {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 3rem;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease-out 1s both;
+}
+
+.feature i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--pl-purple);
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--pl-purple);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  animation: fadeIn 1s ease-out 1.5s both;
+}
+
+.cta-button:hover {
+  background-color: var(--light-purple);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

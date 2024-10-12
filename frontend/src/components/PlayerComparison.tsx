@@ -112,16 +112,15 @@ const PlayerComparison: React.FC = () => {
       <h2>Player Comparison</h2>
       {!selectedPosition && (
         <div className="position-selection">
-        <h3>Select a position:</h3>
-        {positions.map(position => (
-          <React.Fragment key={position}>
-            <button onClick={() => handlePositionSelect(position)}>
-              {position}
-            </button>
-            <br />
-          </React.Fragment>
-        ))}
-      </div>
+          <h3>Select a position:</h3>
+          <div className="position-buttons">
+            {positions.map(position => (
+              <button key={position} onClick={() => handlePositionSelect(position)}>
+                {position}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
       {selectedPosition && (
         <div className="player-selection">
