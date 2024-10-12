@@ -30,12 +30,26 @@ function App() {
           <main className="App-main">
             <Routes>
               <Route path="/" element={
-                <>
-                  <h1>Welcome to Premier League Stats Tracker</h1>
-                  <img src={process.env.PUBLIC_URL + '/pl.png'} alt="Premier League Logo" />
-                  <p className="subtitle">Explore player statistics, compare performances, and stay updated with the latest Premier League insights.</p>
-                  <PlayerList />
-                </>
+                <div className="welcome-page">
+                  <h1 className="welcome-title">Welcome to Premier League Stats Tracker</h1>
+                  <img className="welcome-logo" src={process.env.PUBLIC_URL + '/pl.png'} alt="Premier League Logo" />
+                  <p className="welcome-subtitle">Explore player statistics, compare performances, and stay updated with the latest Premier League insights.</p>
+                  <div className="welcome-features">
+                    <div className="feature">
+                      <i className="fas fa-chart-line"></i>
+                      <h3>Player Statistics</h3>
+                    </div>
+                    <div className="feature">
+                      <i className="fas fa-users"></i>
+                      <h3>Team Comparisons</h3>
+                    </div>
+                    <div className="feature">
+                      <i className="fas fa-trophy"></i>
+                      <h3>Top Performers</h3>
+                    </div>
+                  </div>
+                  <Link to="/dashboard" className="cta-button">Get Started</Link>
+                </div>
               } />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/teams/:teamName" element={<TeamPage />} />
