@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom';
+
 interface TopPlayer {
   name: string;
-  id:number;
+  id: number;
   total_points: number;
 }
 
@@ -15,7 +16,6 @@ const Dashboard: React.FC = () => {
     const fetchDashboardData = async () => {
       try {
         const response = await axios.get('http://localhost:8000/dashboard');
-        // The response.data is already the array of top players
         setTopPlayers(response.data);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -48,24 +48,17 @@ const Dashboard: React.FC = () => {
     { name: 'Wolves', file: 'wolves.png' },
   ];
 
-  const handleLogoClick = (teamName: string) => {
-    // Replace this with the actual URL you want to navigate to
-    const url = `https://example.com/team/${teamName.replace(' ', '-')}`;
-    window.open(url, '_blank');
-  };
-
   return (
     <div className="dashboard">
       <h2>Dashboard</h2>
       <div className="top-players">
-        <h3>Top 3 Players</h3>
-        <ul>
-          {topPlayers.map((player, index) => (
-            <li key={index}>
-              <Link to={`/player/${player.id}`}>{player.name}</Link> - {player.total_points} points
-            </li>
-          ))}
-        </ul>
+        {topPlayers.map((player, index) => (
+          <div key={index} className="top-player-card">
+            <h3>Top Player {index + 1}</h3>
+            <Link to={`/player/${player.id}`}>{player.name}</Link>
+            <p>{player.total_points} points</p>
+          </div>
+        ))}
       </div>
       <div className="team-logos">
         <h3>Premier League Teams</h3>
