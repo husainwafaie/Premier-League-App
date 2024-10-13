@@ -6,6 +6,7 @@
   --white: #ffffff;
   --off-white: #f0f0f0;
   --pl-purple: #3D195B;  /* Official Premier League purple */
+  --new-purple:#A020F0;
 }
 
 body {
@@ -35,7 +36,7 @@ h1, h2, h3, h4, h5, h6 {
 .App-nav {
   width: 250px;
   background-color: var(--light-purple);
-  padding: 2rem;
+  padding: 1.6rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease;
   overflow: hidden;
@@ -59,10 +60,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .App-nav a {
   font-family: 'Roboto', Arial, sans-serif;
-  font-weight: 400;
+  font-weight: 900;
   text-decoration: none;
   color: var(--off-white);
-  font-size: 1rem;
+  font-size: 1.06rem;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -118,7 +119,8 @@ h1, h2, h3, h4, h5, h6 {
 .logo {
   font-family: 'Roboto', Arial, sans-serif;
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 1.9rem;
+  margin-top: 1.4rem;
   margin-bottom: 2rem;
   color: var(--white);
   text-transform: uppercase;
@@ -419,7 +421,7 @@ a::after {
 .injury-tracker h2 {
   margin-bottom: 20px;
   font-size: 2.5rem;
-  color: var(--pl-purple);
+  color: var(--new-purple);
   text-align: center;
   animation: slideDown 0.5s ease-out;
 }
@@ -476,7 +478,7 @@ a::after {
 }
 
 .injury-tracker a {
-  color: var(--pl-purple);
+  color: var(--new-purple);
   font-weight: bold;
   transition: all 0.3s ease;
 }
@@ -673,4 +675,114 @@ a::after {
 .cta-button:active {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dashboard h2 {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: var(--new-purple);
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.top-players {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.top-player-card {
+  flex: 1;
+  background-color: var(--light-purple);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 0 1rem;
+  text-align: center;
+  border: 2px solid var(--new-purple);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+  position: relative; /* Add this for pseudo-element positioning */
+  overflow: hidden; /* Add this to contain the pseudo-element */
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.top-player-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgb(160, 32, 240), transparent, rgb(160, 32, 240));
+  z-index: -1;
+  border-radius: 10px; /* Slightly larger than the card's border-radius */
+  animation: borderAnimation 3s ease-in-out infinite;
+}
+
+@keyframes borderAnimation {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+.top-player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(160, 32, 240, 0.3); /* Update shadow color */
+}
+
+.team-logos h3 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  padding: 0 20px; /* Add padding to prevent text overlap */
+}
+
+.team-logos h3::before,
+.team-logos h3::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%; /* Reduce width to prevent overlap */
+  height: 2px;
+  background-color: var(--white);
+  transform: translateY(-50%);
+}
+
+.team-logos h3::before {
+  left: -30%;
+  animation: slideInLeft 1s forwards;
+}
+
+.team-logos h3::after {
+  right: -30%;
+  animation: slideInRight 1s forwards;
+}
+
+@keyframes slideInLeft {
+  to { left: 5%; }
+}
+
+@keyframes slideInRight {
+  to { right: 5%; }
 }
