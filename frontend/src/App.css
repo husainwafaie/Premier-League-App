@@ -345,27 +345,177 @@ a::after {
   margin: 5px 0;
 }
 
+.top-performers {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.top-performers h1 {
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: var(--new-purple);
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.position-group {
+  margin-bottom: 40px;
+  background-color: var(--light-purple);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.position-group:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.position-group h2 {
+  margin-bottom: 15px;
+  color: var(--white);
+  font-size: 1.8rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.position-group h2::before,
+.position-group h2::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 2px;
+  background-color: var(--new-purple);
+  transform: translateY(-50%);
+}
+
+.position-group h2::before {
+  left: -30%;
+  animation: slideInLeft 1s forwards;
+}
+
+.position-group h2::after {
+  right: -30%;
+  animation: slideInRight 1s forwards;
+}
+
+@keyframes slideInLeft {
+  to { left: 5%; }
+}
+
+@keyframes slideInRight {
+  to { right: 5%; }
+}
+
+.position-group h2 span {
+  position: relative;
+  z-index: 1;
+  background-color: var(--light-purple);
+  padding: 0 15px;
+}
+
 .top-performers table {
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
 .top-performers th,
 .top-performers td {
-  padding: 0.5rem;
+  padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  transition: all 0.3s ease;
 }
 
 .top-performers th {
-  background-color: #f2f2f2;
+  background-color: var(--pl-purple);
+  color: var(--white);
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.top-performers tr {
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
 }
 
 .top-performers tr:hover {
-  background-color: #f5f5f5;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
 }
+
+.top-performers td:first-child,
+.top-performers th:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.top-performers td:last-child,
+.top-performers th:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.top-performers a {
+  color: var(--new-purple);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.top-performers a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--new-purple);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.top-performers a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.top-performers tr {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.top-performers tr:nth-child(1) { animation-delay: 0.1s; }
+.top-performers tr:nth-child(2) { animation-delay: 0.2s; }
+.top-performers tr:nth-child(3) { animation-delay: 0.3s; }
+.top-performers tr:nth-child(4) { animation-delay: 0.4s; }
+.top-performers tr:nth-child(5) { animation-delay: 0.5s; }
+
 
 .transfer-market {
   max-width: 1200px;
@@ -482,7 +632,7 @@ a::after {
   transform-origin: bottom left;
 }
 
-/* Add this to your existing CSS file */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -500,11 +650,15 @@ a::after {
 }
 
 .player-list tr:nth-child(1) { animation-delay: 0.1s; }
-.player-list tr:nth-child(2) { animation-delay: 0.2s; }
-.player-list tr:nth-child(3) { animation-delay: 0.3s; }
-.player-list tr:nth-child(4) { animation-delay: 0.4s; }
-.player-list tr:nth-child(5) { animation-delay: 0.5s; }
-/* Add more if you have more rows */
+.player-list tr:nth-child(2) { animation-delay: 0.3s; }
+.player-list tr:nth-child(3) { animation-delay: 0.5s; }
+.player-list tr:nth-child(4) { animation-delay: 0.7s; }
+.player-list tr:nth-child(5) { animation-delay: 0.9s; }
+.player-list tr:nth-child(6) { animation-delay: 1.1s; }
+.player-list tr:nth-child(7) { animation-delay: 1.3s; }
+.player-list tr:nth-child(8) { animation-delay: 1.5s; }
+.player-list tr:nth-child(9) { animation-delay: 1.7s; }
+.player-list tr:nth-child(10) { animation-delay: 1.9s; }
 
 .injury-tracker {
   max-width: 1200px;
@@ -632,7 +786,7 @@ a::after {
   transition: width 0.5s ease-out;
 }
 
-/* Add this to your existing CSS file */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -680,7 +834,7 @@ a::after {
   background-color: var(--pl-purple);
 }
 
-/* Welcome Page Styles */
+
 .welcome-page {
   display: flex;
   flex-direction: column;
@@ -815,8 +969,8 @@ a::after {
   border: 2px solid var(--new-purple);
   transition: all 0.3s ease;
   animation: fadeInUp 0.5s ease-out;
-  position: relative; /* Add this for pseudo-element positioning */
-  overflow: hidden; /* Add this to contain the pseudo-element */
+  position: relative;
+  overflow: hidden;
 }
 
 @keyframes fadeInUp {
@@ -833,7 +987,7 @@ a::after {
   bottom: -2px;
   background: linear-gradient(45deg, rgb(160, 32, 240), transparent, rgb(160, 32, 240));
   z-index: -1;
-  border-radius: 10px; /* Slightly larger than the card's border-radius */
+  border-radius: 10px;
   animation: borderAnimation 3s ease-in-out infinite;
 }
 
@@ -844,7 +998,7 @@ a::after {
 
 .top-player-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(160, 32, 240, 0.3); /* Update shadow color */
+  box-shadow: 0 5px 15px rgba(160, 32, 240, 0.3); 
 }
 
 .team-logos h3 {
@@ -855,7 +1009,7 @@ a::after {
   color: var(--white);
   position: relative;
   overflow: hidden;
-  padding: 0 20px; /* Add padding to prevent text overlap */
+  padding: 0 20px;
 }
 
 .team-logos h3::before,
@@ -863,7 +1017,7 @@ a::after {
   content: '';
   position: absolute;
   top: 50%;
-  width: 30%; /* Reduce width to prevent overlap */
+  width: 30%;
   height: 2px;
   background-color: var(--white);
   transform: translateY(-50%);
