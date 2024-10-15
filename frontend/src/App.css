@@ -371,40 +371,140 @@ a::after {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .transfer-market h2 {
   margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: var(--new-purple);
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .player-list {
   margin-bottom: 40px;
+  background-color: var(--light-purple);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.player-list:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .player-list h3 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: var(--white);
+  font-size: 1.8rem;
+  text-align: center;
 }
 
 .player-list table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
 .player-list th,
 .player-list td {
-  padding: 10px;
+  padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  transition: all 0.3s ease;
 }
 
 .player-list th {
-  background-color: var(--light-purple);
+  background-color: var(--pl-purple);
+  color: var(--white);
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.player-list tr {
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
 }
 
 .player-list tr:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
 }
+
+.player-list td:first-child,
+.player-list th:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.player-list td:last-child,
+.player-list th:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.player-list a {
+  color: var(--white);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.player-list a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--white);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.player-list a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Add this to your existing CSS file */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.player-list tr {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.player-list tr:nth-child(1) { animation-delay: 0.1s; }
+.player-list tr:nth-child(2) { animation-delay: 0.2s; }
+.player-list tr:nth-child(3) { animation-delay: 0.3s; }
+.player-list tr:nth-child(4) { animation-delay: 0.4s; }
+.player-list tr:nth-child(5) { animation-delay: 0.5s; }
+/* Add more if you have more rows */
 
 .injury-tracker {
   max-width: 1200px;
