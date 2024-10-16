@@ -40,7 +40,7 @@ const TopPerformers: React.FC = () => {
       <h1>Top Performers</h1>
       {Object.entries(topPerformers).map(([position, players]) => (
         <div key={position} className="position-group">
-          <h2>{positionNames[position as keyof typeof positionNames]}</h2>
+          <h2><span>{positionNames[position as keyof typeof positionNames]}</span></h2>
           <table>
             <thead>
               <tr>
