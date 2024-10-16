@@ -1001,15 +1001,18 @@ a::after {
   box-shadow: 0 5px 15px rgba(160, 32, 240, 0.3); 
 }
 
-.team-logos h3 {
-  margin-top: 0;
-  margin-bottom: 2rem;
+.team-logos {
   text-align: center;
+  margin-bottom: 2rem;
+}
+
+.team-logos h3 {
+  display: inline-block;
   font-size: 2rem;
   color: var(--white);
   position: relative;
-  overflow: hidden;
   padding: 0 20px;
+  margin: 0 auto 2rem;
 }
 
 .team-logos h3::before,
@@ -1017,26 +1020,15 @@ a::after {
   content: '';
   position: absolute;
   top: 50%;
-  width: 30%;
+  width: 90%;
   height: 2px;
-  background-color: var(--white);
-  transform: translateY(-50%);
+  background: linear-gradient(to right, transparent, var(--new-purple), transparent);
 }
 
 .team-logos h3::before {
-  left: -30%;
-  animation: slideInLeft 1s forwards;
+  right: 100%;
 }
 
 .team-logos h3::after {
-  right: -30%;
-  animation: slideInRight 1s forwards;
-}
-
-@keyframes slideInLeft {
-  to { left: 5%; }
-}
-
-@keyframes slideInRight {
-  to { right: 5%; }
+  left: 100%;
 }
