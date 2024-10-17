@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
                 style={{ objectFit: 'cover' }}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = '/images/blank.png';
+                  target.src = `${process.env.PUBLIC_URL}/blank.png`;
                 }}
               />
             </div>

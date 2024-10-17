@@ -42,14 +42,15 @@ const PlayerPage: React.FC = () => {
 
   return (
     <div className="player-page">
+      
       <img
         src={getPictureUrl(playerData.id)}
-        alt={`Player ${playerId}`}
+        alt={`Player ${playerData.name}`}
         width={250}
         height={250}
         onError={(e) => {
           const target = e.target as HTMLImageElement;
-          target.src = '/images/blank.png';
+          target.src = `${process.env.PUBLIC_URL}/blank.png`;
         }}
       />
       <h2>{playerData.name}</h2>

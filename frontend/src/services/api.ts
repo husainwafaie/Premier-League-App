@@ -13,5 +13,5 @@ export const getPictureUrl = (id: number) => {
     if (pictureId) {
       return `https://resources.premierleague.com/premierleague/photos/players/250x250/${pictureId}.png`;
     }
-    return '/images/blank.png';
+    return `${process.env.PUBLIC_URL}/blank.png`;
   };
