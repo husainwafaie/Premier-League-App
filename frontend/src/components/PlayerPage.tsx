@@ -17,6 +17,7 @@ interface PlayerData {
   selected_by_percent: number;
 }
 
+
 const PlayerPage: React.FC = () => {
   const { playerId } = useParams<{ playerId: string }>();
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
@@ -47,6 +48,16 @@ const PlayerPage: React.FC = () => {
 
   return (
     <div className="player-page">
+      <img
+        src={getPictureUrl(playerData.id)}
+        alt={`Player ${playerId}`}
+        width={250}
+        height={250}
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.src = '/images/blank.png';
+        }}
+      />
       <h2>{playerData.name}</h2>
       <div className="player-info">
         <p>Team: {playerData.team}</p>
