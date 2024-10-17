@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import { getPictureUrl } from '../services/api';
 
 interface TopPlayer {
   name: string;
@@ -56,6 +57,19 @@ const Dashboard: React.FC = () => {
           <div key={index} className="top-player-card">
             <h3>Top Player {index + 1}</h3>
             <Link to={`/player/${player.id}`}>{player.name}</Link>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+              <img
+                src={getPictureUrl(player.id)}
+                alt={`Player ${player.name}`}
+                width={150}
+                height={150}
+                style={{ objectFit: 'cover' }}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/images/blank.png';
+                }}
+              />
+            </div>
             <p>{player.total_points} points</p>
           </div>
         ))}
