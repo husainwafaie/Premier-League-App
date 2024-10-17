@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { IDdct } from '../utils/images';
+import { getPictureUrl } from '../services/api';
 
 interface PlayerData {
   id: number;
@@ -16,6 +16,7 @@ interface PlayerData {
   price: number;
   selected_by_percent: number;
 }
+
 
 const PlayerPage: React.FC = () => {
   const { playerId } = useParams<{ playerId: string }>();
@@ -37,16 +38,21 @@ const PlayerPage: React.FC = () => {
   if (!playerData) {
     return <div>Loading...</div>;
   }
-  const getPictureUrl = (id: number) => {
-    const pictureId = IDdct[id];
-    if (pictureId) {
-      return `https://resources.premierleague.com/premierleague/photos/players/250x250/${pictureId}.png`;
-    }
-    return '/images/blank.png';
-  };
+  
 
   return (
     <div className="player-page">
+      
+      <img
+        src={getPictureUrl(playerData.id)}
+        alt={`Player ${playerData.name}`}
+        width={250}
+        height={250}
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.src = `${process.env.PUBLIC_URL}/blank.png`;
+        }}
+      />
       <h2>{playerData.name}</h2>
       <div className="player-info">
         <p>Team: {playerData.team}</p>
