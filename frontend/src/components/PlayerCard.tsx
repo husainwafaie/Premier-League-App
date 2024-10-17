@@ -1,6 +1,6 @@
-// PlayerCard.tsx
+
 import React from 'react';
-import { Player } from '../types'; // Adjust the import path based on where you define your types
+import { Player } from '../types';
 
 interface PlayerCardProps {
     player: Player;

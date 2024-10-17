@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { IDdct } from '../utils/images';
 
 interface PlayerData {
   id: number;
@@ -36,6 +37,13 @@ const PlayerPage: React.FC = () => {
   if (!playerData) {
     return <div>Loading...</div>;
   }
+  const getPictureUrl = (id: number) => {
+    const pictureId = IDdct[id];
+    if (pictureId) {
+      return `https://resources.premierleague.com/premierleague/photos/players/250x250/${pictureId}.png`;
+    }
+    return '/images/blank.png';
+  };
 
   return (
     <div className="player-page">
