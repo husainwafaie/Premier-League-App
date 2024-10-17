@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import pprint
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['premier_league']
@@ -112,5 +113,5 @@ for short_name, short_id in short_name_dct.items():
         print(f"Player with shorter name {short_name} not found in the database")
 
 # Now `id_keyed_dict` contains player IDs as keys and shorter names as values
-print(id_keyed_dict)
+pprint.pprint(id_keyed_dict)
 print(len(id_keyed_dict))
