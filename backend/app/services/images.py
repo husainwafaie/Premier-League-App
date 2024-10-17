@@ -101,17 +101,14 @@ short_name_dct = {'Max Aarons': 'p232980',
 id_keyed_dict = {}
 
 for short_name, short_id in short_name_dct.items():
-    # Query the MongoDB collection for the full name and corresponding player ID
     full_name_query = {"name": {"$regex": short_name, "$options": "i"}}
     player_record = collection.find_one(full_name_query, {"_id": 0, "id": 1})
 
     if player_record:
         player_id = player_record['id']
-        # Set the player ID as the key and the short name as the value
         id_keyed_dict[player_id] = short_id
     else:
         print(f"Player with shorter name {short_name} not found in the database")
 
-# Now `id_keyed_dict` contains player IDs as keys and shorter names as values
 pprint.pprint(id_keyed_dict)
 print(len(id_keyed_dict))

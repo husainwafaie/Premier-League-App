@@ -1,4 +1,4 @@
-const idKeyedDict: Record<number, string> = {
+export const IDdct: { [key: number]: string } = {
     4: 'p219847',
     5: 'p463748',
     6: 'p445122',
