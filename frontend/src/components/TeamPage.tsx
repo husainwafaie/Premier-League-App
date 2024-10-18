@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
 interface Player {
@@ -104,8 +104,11 @@ const TeamPage: React.FC = () => {
               {teamData[position as keyof TeamData]?.map((player, playerIndex) => (
                 <PlayerItem
                   key={player.id}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                   whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: playerIndex * 0.05 }}
                 >
                   <PlayerLink to={`/player/${player.id}`}>
                     <PlayerName>{player.name}</PlayerName>
@@ -121,7 +124,6 @@ const TeamPage: React.FC = () => {
   );
 };
 
-// Add this helper function
 const getFullPositionName = (position: string) => {
   switch (position) {
     case 'FWD':
@@ -135,30 +137,48 @@ const getFullPositionName = (position: string) => {
   }
 };
 
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideUp = keyframes`
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+`;
+
 const PageWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #4a1e5a;
+  background-color: var(--dark-purple);
   min-height: 100vh;
+  animation: ${fadeIn} 0.5s ease-out;
 `;
 
 const TeamHeader = styled(motion.div)`
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
 `;
 
 const TeamLogo = styled.img`
-  width: 15%;
-  aspect-ratio: 1/1;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
-  margin-right: 1rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  animation: ${fadeIn} 1s ease-out, ${slideUp} 1s ease-out;
 `;
 
 const TeamName = styled.h1`
-  font-size: 2.5rem;
-  color: #F5F5F5;
+  font-size: 3rem;
+  color: var(--white);
+  text-align: center;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: ${fadeIn} 1s ease-out 0.5s both, ${slideUp} 1s ease-out 0.5s both;
 `;
 
 const PlayerSection = styled.div`
@@ -168,18 +188,32 @@ const PlayerSection = styled.div`
 `;
 
 const PositionGroup = styled(motion.div)`
-  background-color: white;
+  background-color: var(--light-purple);
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const PositionTitle = styled.h2`
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
+  color: var(--white);
   margin-bottom: 1rem;
-  border-bottom: 2px solid #eaeaea;
-  padding-bottom: 0.5rem;
+  text-align: center;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--new-purple);
+    transition: width 0.3s ease;
+  }
+  &:hover::after {
+    width: 100px;
+  }
 `;
 
 const PlayerList = styled.ul`
@@ -189,6 +223,8 @@ const PlayerList = styled.ul`
 
 const PlayerItem = styled(motion.li)`
   margin-bottom: 0.5rem;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const PlayerLink = styled(Link)`
@@ -196,15 +232,10 @@ const PlayerLink = styled(Link)`
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.05);
   text-decoration: none;
-  color: #333;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #eaeaea;
-  }
+  color: var(--white);
+  transition: all 0.3s ease;
 `;
 
 const PlayerName = styled.span`
@@ -212,7 +243,8 @@ const PlayerName = styled.span`
 `;
 
 const PlayerPoints = styled.span`
-  color: #666;
+  color: var(--new-purple);
+  font-weight: bold;
 `;
 
 const LoadingWrapper = styled.div`
@@ -221,7 +253,8 @@ const LoadingWrapper = styled.div`
   align-items: center;
   height: 100vh;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--white);
+  background-color: var(--dark-purple);
 `;
 
 export default TeamPage;
