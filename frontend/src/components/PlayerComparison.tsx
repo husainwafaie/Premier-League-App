@@ -135,7 +135,7 @@ const PlayerComparison: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h3>Select a position:</h3>
+          <h3>Select a position</h3>
           <PositionButtons>
             {positions.map((position, index) => (
               <PositionButton
