@@ -40,6 +40,8 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease;
   overflow: hidden;
+  height: 100vh;
+  position: fixed;
 }
 
 .App-nav:hover {
@@ -150,6 +152,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-grow: 1;
   padding: 2rem 3rem;
   overflow-y: auto;
+  margin-left: 250px;
 }
 
 h1 {
