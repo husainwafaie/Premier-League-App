@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { Link } from 'react-router-dom';
-import '../App.css';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const positions = ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'];
 
@@ -108,50 +109,236 @@ const PlayerComparison: React.FC = () => {
   };
 
   return (
-    <div className="player-comparison">
-      <h2>Player Comparison</h2>
+    <ComparisonWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Title>Player Comparison</Title>
       {!selectedPosition && (
-        <div className="position-selection">
+        <PositionSelection
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <h3>Select a position:</h3>
-          <div className="position-buttons">
-            {positions.map(position => (
-              <button key={position} onClick={() => handlePositionSelect(position)}>
+          <PositionButtons>
+            {positions.map((position, index) => (
+              <PositionButton
+                key={position}
+                onClick={() => handlePositionSelect(position)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
                 {position}
-              </button>
+              </PositionButton>
             ))}
-          </div>
-        </div>
+          </PositionButtons>
+        </PositionSelection>
       )}
       {selectedPosition && (
-        <div className="player-selection">
-          <h3>Select {selectedPlayers.length === 1 ? 'second' : 'first'} {selectedPosition}s to compare:</h3>
-          <div className="autocomplete">
-            <input
+        <PlayerSelection
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h3>Select {selectedPlayers.length === 1 ? 'second' : 'first'} {selectedPosition} to compare:</h3>
+          <AutocompleteWrapper>
+            <SearchInput
               type="text"
               value={searchQuery}
               onChange={handleSearchInputChange}
               placeholder={`Search for ${selectedPosition}s`}
-              style={{ color: 'black' }}
             />
-            {searchResults.length > 0 && (
-              <ul className="autocomplete-results">
-                {searchResults.map(player => (
-                  <li
-                    key={player.name}
-                    onClick={() => handlePlayerSelect(player)}
-                    className={selectedPlayers.some(p => p.name === player.name) ? 'selected' : ''}
-                  >
-                    {player.name} ({player.team})
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
+            <AnimatePresence>
+              {searchResults.length > 0 && (
+                <AutocompleteResults
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  {searchResults.map((player, index) => (
+                    <AutocompleteItem
+                      key={player.name}
+                      onClick={() => handlePlayerSelect(player)}
+                      className={selectedPlayers.some(p => p.name === player.name) ? 'selected' : ''}
+                      whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      {player.name} ({player.team})
+                    </AutocompleteItem>
+                  ))}
+                </AutocompleteResults>
+              )}
+            </AnimatePresence>
+          </AutocompleteWrapper>
+        </PlayerSelection>
       )}
-      {selectedPlayers.length > 0 && renderComparisonData()}
-    </div>
+      {selectedPlayers.length > 0 && (
+        <ComparisonData
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          {selectedPlayers.map((player, index) => (
+            <PlayerColumn
+              key={player.name}
+              initial={{ opacity: 0, x: index === 0 ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 + index * 0.1 }}
+            >
+              <h3>
+                <PlayerLink to={`/player/${player.id}`}>{player.name}</PlayerLink>
+              </h3>
+              {comparisonData[index] ? (
+                <PlayerStats>
+                  <StatItem>Team: {comparisonData[index].team}</StatItem>
+                  <StatItem>Position: {comparisonData[index].position}</StatItem>
+                  <StatItem>Total Points: {comparisonData[index].total_points}</StatItem>
+                  {/* Add more player statistics here */}
+                </PlayerStats>
+              ) : (
+                <LoadingText>Loading...</LoadingText>
+              )}
+            </PlayerColumn>
+          ))}
+        </ComparisonData>
+      )}
+    </ComparisonWrapper>
   );
 };
+
+const ComparisonWrapper = styled(motion.div)`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--white);
+`;
+
+const Title = styled.h2`
+  font-size: 2.5rem;
+  color: var(--new-purple);
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const PositionSelection = styled(motion.div)`
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const PositionButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+const PositionButton = styled(motion.button)`
+  padding: 0.75rem 1.5rem;
+  background-color: var(--light-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--pl-purple);
+  }
+`;
+
+const PlayerSelection = styled(motion.div)`
+  margin-bottom: 2rem;
+`;
+
+const AutocompleteWrapper = styled.div`
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: var(--white);
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+`;
+
+const AutocompleteResults = styled(motion.ul)`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--light-purple);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+`;
+
+const AutocompleteItem = styled(motion.li)`
+  padding: 0.75rem;
+  cursor: pointer;
+
+  &.selected {
+    background-color: var(--pl-purple);
+  }
+`;
+
+const ComparisonData = styled(motion.div)`
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+`;
+
+const PlayerColumn = styled(motion.div)`
+  flex: 1;
+  background-color: var(--light-purple);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const PlayerLink = styled(Link)`
+  color: var(--new-purple);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--white);
+  }
+`;
+
+const PlayerStats = styled.div`
+  margin-top: 1rem;
+`;
+
+const StatItem = styled.p`
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+`;
+
+const LoadingText = styled.p`
+  text-align: center;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+`;
 
 export default PlayerComparison;
