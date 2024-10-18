@@ -35,7 +35,7 @@ async def get_player(team_name: str):
     if not await db['fantasy-data'].find_one({"team": team_name}):
         raise HTTPException(status_code=404, detail="Player not found")
     
-    # Get the top 3 players for each position
+    # for top 3
     ret = {
         "FWD": [],
         "DEF": [],
@@ -75,10 +75,25 @@ async def search_players(
         }
         filter_query["position"] = position_map[position]
 
+    common_fields = {'_id': 0, 'id': 1, 'name': 1, 'team': 1, 'position': 1, 'now_cost': 1, 'total_points': 1, 'points_per_game': 1}
+    
+    if position in ["Forward", "Midfielder"]:
+        fields = {**common_fields, 'goals_scored': 1, 'assists': 1, 'form': 1}
+    elif position == "Defender":
+        fields = {**common_fields, 'clean_sheets': 1, 'form': 1, 'starts': 1}
+    elif position == "Goalkeeper":
+        fields = {**common_fields, 'clean_sheets': 1, 'saves': 1, 'penalties_saved': 1}
+    else:
+        fields = common_fields 
+
     players = await db['fantasy-data'].find(
         filter_query,
-        {'_id': 0, 'id': 1, 'name': 1, 'position': 1, 'team': 1, 'total_points': 1}
+        fields
     ).sort('total_points', DESCENDING).limit(10).to_list(10)
+
+    for player in players:
+        player['cost'] = player['now_cost'] / 10
+        del player['now_cost']
 
     return players
 

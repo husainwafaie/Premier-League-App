@@ -42,7 +42,6 @@ const PlayerComparison: React.FC = () => {
         const response = await axios.get(`http://localhost:8000/players/search/?query=${query}&position=${selectedPosition}`);
         let results = response.data;
         
-        // Exclude the first selected player from the results
         if (selectedPlayers.length === 1) {
           results = results.filter((player: any) => player.name !== selectedPlayers[0].name);
         }
@@ -65,13 +64,11 @@ const PlayerComparison: React.FC = () => {
     const fetchComparisonData = async () => {
       if (selectedPlayers.length === 2) {
         try {
-          // Use player names instead of IDs
           const [player1Data, player2Data] = await Promise.all([
             axios.get(`http://localhost:8000/players/search/?query=${encodeURIComponent(selectedPlayers[0].name)}&position=${selectedPosition}`),
             axios.get(`http://localhost:8000/players/search/?query=${encodeURIComponent(selectedPlayers[1].name)}&position=${selectedPosition}`)
           ]);
 
-          // Assuming the search returns an array, we take the first result
           setComparisonData([player1Data.data[0], player2Data.data[0]]);
         } catch (error) {
           console.error('Error fetching comparison data:', error);
@@ -84,28 +81,45 @@ const PlayerComparison: React.FC = () => {
     fetchComparisonData();
   }, [selectedPlayers, selectedPosition]);
 
-  const renderComparisonData = () => {
-    return (
-      <div className="comparison-data">
-        {selectedPlayers.map((player, index) => (
-          <div key={player.name} className="player-column">
-            <h3>
-              <Link to={`/player/${player.id}`}>{player.name}</Link>
-            </h3>
-            {comparisonData[index] ? (
-              <>
-                <p>Team: {comparisonData[index].team}</p>
-                <p>Position: {comparisonData[index].position}</p>
-                <p>Total Points: {comparisonData[index].total_points}</p>
-                {/* Add more player statistics here */}
-              </>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-        ))}
-      </div>
-    );
+  const handleNewComparison = () => {
+    setSelectedPosition(null);
+    setSelectedPlayers([]);
+    setSearchQuery('');
+    setSearchResults([]);
+    setComparisonData([]);
+  };
+
+  const renderPlayerStats = (player: any) => {
+    const commonStats = [
+      { label: 'Team', value: player.team },
+      { label: 'Cost', value: `£${player.cost}m` },
+      { label: 'Total Points', value: player.total_points },
+      { label: 'Points per Game', value: player.points_per_game },
+    ];
+
+    let positionSpecificStats: { label: string; value: any }[] = [];
+
+    if (player.position === 'FWD' || player.position === 'MID') {
+      positionSpecificStats = [
+        { label: 'Goals', value: player.goals_scored },
+        { label: 'Assists', value: player.assists },
+        { label: 'Form', value: player.form },
+      ];
+    } else if (player.position === 'DEF') {
+      positionSpecificStats = [
+        { label: 'Clean Sheets', value: player.clean_sheets },
+        { label: 'Form', value: player.form },
+        { label: 'Starts', value: player.starts },
+      ];
+    } else if (player.position === 'GKP') {
+      positionSpecificStats = [
+        { label: 'Clean Sheets', value: player.clean_sheets },
+        { label: 'Saves', value: player.saves },
+        { label: 'Penalties Saved', value: player.penalties_saved },
+      ];
+    }
+
+    return [...commonStats, ...positionSpecificStats];
   };
 
   return (
@@ -139,7 +153,7 @@ const PlayerComparison: React.FC = () => {
           </PositionButtons>
         </PositionSelection>
       )}
-      {selectedPosition && (
+      {selectedPosition && selectedPlayers.length < 2 && (
         <PlayerSelection
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -197,10 +211,12 @@ const PlayerComparison: React.FC = () => {
               </h3>
               {comparisonData[index] ? (
                 <PlayerStats>
-                  <StatItem>Team: {comparisonData[index].team}</StatItem>
-                  <StatItem>Position: {comparisonData[index].position}</StatItem>
-                  <StatItem>Total Points: {comparisonData[index].total_points}</StatItem>
-                  {/* Add more player statistics here */}
+                  {renderPlayerStats(comparisonData[index]).map((stat, statIndex) => (
+                    <StatItem key={statIndex}>
+                      <StatLabel>{stat.label}:</StatLabel>
+                      <StatValue>{stat.value}</StatValue>
+                    </StatItem>
+                  ))}
                 </PlayerStats>
               ) : (
                 <LoadingText>Loading...</LoadingText>
@@ -208,6 +224,18 @@ const PlayerComparison: React.FC = () => {
             </PlayerColumn>
           ))}
         </ComparisonData>
+      )}
+      {selectedPlayers.length === 2 && (
+        <NewComparisonButton
+          onClick={handleNewComparison}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          New Comparison
+        </NewComparisonButton>
       )}
     </ComparisonWrapper>
   );
@@ -330,15 +358,42 @@ const PlayerStats = styled.div`
   margin-top: 1rem;
 `;
 
-const StatItem = styled.p`
+const StatItem = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin: 0.5rem 0;
   font-size: 1.1rem;
+`;
+
+const StatLabel = styled.span`
+  font-weight: bold;
+`;
+
+const StatValue = styled.span`
+  color: var(--new-purple);
 `;
 
 const LoadingText = styled.p`
   text-align: center;
   font-style: italic;
   color: rgba(255, 255, 255, 0.7);
+`;
+
+const NewComparisonButton = styled(motion.button)`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--new-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--pl-purple);
+  }
 `;
 
 export default PlayerComparison;
