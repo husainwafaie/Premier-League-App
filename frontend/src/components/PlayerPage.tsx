@@ -181,7 +181,7 @@ const LoadingWrapper = styled.div`
   height: 100vh;
   font-size: 1.5rem;
   color: #fff;
-  background: linear-gradient(135deg, #a666ea 0%, #a046b2 100%);
+  background: linear-gradient(135deg, #622c6e 0%, #481e52 100%);
 `;
 
 export default PlayerPage;

@@ -139,7 +139,7 @@ const PageWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #f5f5f5;
+  background-color: #4a1e5a;
   min-height: 100vh;
 `;
 
@@ -150,14 +150,15 @@ const TeamHeader = styled(motion.div)`
 `;
 
 const TeamLogo = styled.img`
-  width: 100px;
-  height: 140px;
+  width: 15%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
   margin-right: 1rem;
 `;
 
 const TeamName = styled.h1`
   font-size: 2.5rem;
-  color: #333;
+  color: #F5F5F5;
 `;
 
 const PlayerSection = styled.div`
